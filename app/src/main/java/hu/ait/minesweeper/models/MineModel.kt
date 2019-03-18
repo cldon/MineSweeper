@@ -4,55 +4,22 @@ import kotlin.random.Random
 
 object MineModel {
 
-    private val fieldMat : Array<Array<Field>> = arrayOf(
-            arrayOf(
-                Field(false, 0, false, false),
-                Field(false, 0, false, false),
-                Field(false, 0, false, false),
-                Field(false, 0, false, false),
-                Field(false, 0, false, false)
-            ),
-           arrayOf(
-               Field(false, 0, false, false),
-               Field(false, 0, false, false),
-               Field(false, 0, false, false),
-               Field(false, 0, false, false),
-               Field(false, 0, false, false)
-           ),
-           arrayOf(
-               Field(false, 0, false, false),
-               Field(false, 0, false, false),
-               Field(false, 0, false, false),
-               Field(false, 0, false, false),
-               Field(false, 0, false, false)
-           ),
-           arrayOf(
-               Field(false, 0, false, false),
-               Field(false, 0, false, false),
-               Field(false, 0, false, false),
-               Field(false, 0, false, false),
-               Field(false, 0, false, false)
-           ),
-            arrayOf(
-                Field(false, 0, false, false),
-                Field(false, 0, false, false),
-                Field(false, 0, false, false),
-                Field(false, 0, false, false),
-                Field(false, 0, false, false)
-            )
-           )
+    var fieldMat = Array<Array<Field>>(5) { Array<Field>(5) {Field(false, 0, false,
+        false)} }
 
+    var dim = arrayOf(4, 6, 8) // dimension
+    var numBombs = arrayOf(2, 6, 10)
 
-
+    var level = 0
 
     private fun addMines() {
-        for (i in 0..2) {
-            var x = Random.nextInt(4)
-            var y = Random.nextInt(4)
+        for (i in 0..numBombs[level]) {
+            var x = Random.nextInt(dim[level])
+            var y = Random.nextInt(dim[level])
 
             while (fieldMat[x][y].isBomb) {
-                x = Random.nextInt(4)
-                y = Random.nextInt(4)
+                x = Random.nextInt(dim[level])
+                y = Random.nextInt(dim[level])
             }
 
             fieldMat[x][y].isBomb = true
@@ -73,8 +40,8 @@ object MineModel {
     }
 
     private fun setFields() {
-        for (i in 0..4) {
-            for (j in 0..4) {
+        for (i in 0..dim[level]) {
+            for (j in 0..dim[level]) {
                 fieldMat[i][j].numBombs = countBombs(i, j)
             }
         }
@@ -85,16 +52,22 @@ object MineModel {
     }
 
     private fun clearModel() {
-        for (i in 0..4) {
-            for (j in 0..4) {
+        for (i in 0..dim[level]) {
+            for (j in 0..dim[level]) {
                 fieldMat[i][j] =  Field(false, 0, false, false)
             }
         }
     }
 
-    fun resetModel() {
+    private fun setDims() {
+        fieldMat = Array<Array<Field>>(dim[level]+1) { Array<Field>(dim[level]+1) {Field(false, 0, false,
+            false)} }
+//        System.out.println("Made mat have dim of " + dim[level]+1)
+    }
 
-        clearModel()
+    fun resetModel() {
+        setDims()
+//        clearModel()
         addMines()
         setFields()
     }

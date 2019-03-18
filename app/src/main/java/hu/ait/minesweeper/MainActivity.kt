@@ -18,6 +18,8 @@ class MainActivity : AppCompatActivity() {
 
         startBtn.setOnClickListener {
             mineView.resetGame()
+            flagToggle.isChecked = false
+            mineView.flag = false
         }
 
         flagToggle.setOnClickListener {
@@ -28,17 +30,17 @@ class MainActivity : AppCompatActivity() {
         easySwitch.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
             mediumSwitch.isChecked = false
             expertSwitch.isChecked = false
-            mineView.diff = 0
+            mineView.levelSelected = 0
         })
         mediumSwitch.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
             easySwitch.isChecked = false
             expertSwitch.isChecked = false
-            mineView.diff = 1
+            mineView.levelSelected = 1
         })
         expertSwitch.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
             mediumSwitch.isChecked = false
             easySwitch.isChecked = false
-            mineView.diff = 2
+            mineView.levelSelected = 2
 
         })
     }
